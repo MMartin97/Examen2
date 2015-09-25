@@ -9,27 +9,34 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 
 public class MyGdxGame extends ApplicationAdapter {
-    SpriteBatch batch;
+
+    private MarioPolling mario;
+    private SpriteBatch batch;
+    SpriteBatch batch2;
     Texture fondo,cloud,cloud2,cloud3,cloud4, nave, pers1,pers2,pers3;
     int altura, anchura;
     Music musica;
 
     @Override
     public void create () {
+
+        mario = new MarioPolling();
         batch = new SpriteBatch();
+
+
+
+
         fondo = new Texture("colegio.jpg");
         cloud = new Texture("nube.png");
         cloud2 = new Texture("nube.png");
         cloud3 = new Texture("nube.png");
         cloud4 = new Texture("nube.png");
-        nave = new Texture("space.png");
-        pers1= new Texture("pj1.png");
-        pers2= new Texture("pj2.png");
-        pers3= new Texture("pj3.png");
+
         altura = Gdx.graphics.getWidth();
         anchura = Gdx.graphics.getHeight();
         musica = Gdx.audio.newMusic(Gdx.files.internal("midi.wav"));
         musica.play();
+
 
 
 
@@ -40,19 +47,35 @@ public class MyGdxGame extends ApplicationAdapter {
     @Override
     public void render () {
 
+        mario.update();
+
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
+        //String messageMario = "Mario esta :("+mario.getPosition().x+","+mario.getPosition().y+")";
+
         batch.begin();
+
+
+
+
         batch.draw(fondo, 0, 0, altura, anchura);
 
         batch.draw(cloud, 0, 300);
         batch.draw(cloud2, 150, 300);
         batch.draw(cloud3, 300, 300);
         batch.draw(cloud4, 405, 300);
-        batch.draw(nave, 0, 200);
-        batch.draw(pers1, 150, 0);
-        batch.draw(pers2, 0, 0);
-        batch.draw(pers3, 280, 0);
+        batch.draw(mario.getTexture(), mario.getPosition().x, mario.getPosition().y, 75, 75);
 
         batch.end();
 
+
+
+    }
+    public void	 dispose(){
+        batch.dispose();
+        mario.getTexture().dispose();
     }
 }
+
+
